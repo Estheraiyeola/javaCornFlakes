@@ -59,10 +59,9 @@ public class SevenSegment {
                     else System.out.print(" ");
 
 
-//                    System.out.print(array[index][index1] + " ");
+
                     result += array[index][index1];
                 }
-//                System.out.println();
                 result += "\n";
 
             }

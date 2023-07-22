@@ -469,34 +469,78 @@ public class MBTI {
         if (personalityToString.equals("ENFJ")) personalityENFJ();
         if (personalityToString.equals("ENFP")) personalityENFP();
         if (personalityToString.equals("ISTJ")) personalityISTJ();
+        if (personalityToString.equals("ISFJ")) personalityISFJ();
+        if (personalityToString.equals("ESTJ")) personalityESTJ();
+        if (personalityToString.equals("ESFJ")) personalityESFJ();
+        if (personalityToString.equals("ISTP")) personalityISTP();
+        if (personalityToString.equals("ISFP")) personalityISFP();
+        if (personalityToString.equals("ESTP")) personalityESTP();
+        if (personalityToString.equals("ESFP")) personalityESFP();
         return personalityToString;
     }
 
+    private void personalityESFP() {
+        System.out.println("Entertainer");
+    }
+
+    private void personalityESTP() {
+        System.out.println("Entrpreneur");
+    }
+
+    private void personalityISFP() {
+        System.out.println("Adventurer");
+    }
+
+    private void personalityISTP() {
+        System.out.println("Virtuoso");
+    }
+
+    private void personalityESFJ() {
+        System.out.println("Consul");
+    }
+
+    private void personalityESTJ() {
+        System.out.println("Executive");
+    }
+
+    private void personalityISFJ() {
+        System.out.println("Defender");
+    }
+
     private void personalityISTJ() {
+        System.out.println("Logistician");
     }
 
     private void personalityENFP() {
+        System.out.println("Campaigner");
     }
 
     private void personalityENFJ() {
+        System.out.println("Protagonist");
     }
 
     private void personalityINFP() {
+        System.out.println("Mediator");
     }
 
     private void personalityINFJ() {
+        System.out.println("Advocate");
     }
 
     private void personalityENTP() {
+        System.out.println("Debater");
     }
 
     private void personalityENTJ() {
+        System.out.println("Commander");
     }
 
     private void personalityINTP() {
+        System.out.println("Logician");
     }
 
     private void personalityINTJ() {
+        System.out.println("Architect");
     }
 
 

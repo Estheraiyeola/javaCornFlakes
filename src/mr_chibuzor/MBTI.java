@@ -4,10 +4,6 @@ package mr_chibuzor;
 import java.util.Objects;
 
 public class MBTI {
-    //    public static void main(String[] args) {
-//        String[][] responses = new String[20][2];
-//        String name;
-//    }
     private String name;
     private final String[][] responseStorage = new String[4][5];
     private String[] responsesExtrovertVsIntrovert = new String[5];

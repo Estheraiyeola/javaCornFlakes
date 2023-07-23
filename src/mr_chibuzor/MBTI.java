@@ -8,7 +8,6 @@ public class MBTI {
     public Scanner input = new Scanner(System.in);
     public String name;
     public String[][] responseStorage = new String[5][4];
-    public String[] responsesExtrovertVsIntrovert = new String[5];
 
     public String[][] questions = new String[20][2];
     public String[] personality = new String[4];
@@ -373,7 +372,6 @@ public class MBTI {
             questionSixteen();
         }
     }
-
     public void questionSeventeen() {
         System.out.println("""
                 A. active, initiate.     B. reflective, deliberate

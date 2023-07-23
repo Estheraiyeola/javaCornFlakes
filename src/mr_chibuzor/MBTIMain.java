@@ -1,5 +1,4 @@
 package mr_chibuzor;
-import mr_chibuzor.MBTI;
 public class MBTIMain {
     public static void main(String[] args) {
         MBTI activity = new MBTI();

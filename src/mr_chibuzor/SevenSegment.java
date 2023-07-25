@@ -65,7 +65,8 @@ public class SevenSegment {
                 result += "\n";
 
             }
-        } else if (segmentH == 48) {
+        }
+        else  {
             System.out.println("Invalid input");
         }
         return result;

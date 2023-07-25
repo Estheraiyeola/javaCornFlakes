@@ -12,11 +12,12 @@ public class MBTI {
     public String[][] questions = new String[20][2];
     public String[] personality = new String[4];
     public void displayMethod() {
-        nameMethod(name);
+        nameMethod();
     }
 
-    public void nameMethod(String name) {
+    public void nameMethod() {
         System.out.println("What is your name? ");
+        String name = input.nextLine();
         this.name = name;
     }
 

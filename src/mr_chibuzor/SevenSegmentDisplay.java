@@ -71,7 +71,7 @@ public class SevenSegmentDisplay {
                 }
             }
         }
-        else System.out.println("Invalid input");;
+        else System.out.println("Invalid input");
     }
 
 

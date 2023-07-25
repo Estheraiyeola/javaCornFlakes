@@ -7,7 +7,7 @@ public class MBTIMain {
         activity.questions = new String[20][2];
         activity.personality = new String[4];
         activity.questions();
-        activity.nameMethod(name);
+        activity.nameMethod();
         System.out.println(activity.getNameMethod());
         activity.questionOne();
         activity.questionTwo();

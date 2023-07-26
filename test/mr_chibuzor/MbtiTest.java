@@ -13,7 +13,7 @@ public class MbtiTest {
     }
     @Test
     public void testThatMethodNameWorks(){
-        activity.nameMethod("Esther");
+        activity.nameMethod();
         Assertions.assertEquals("Esther", activity.getNameMethod());
     }
     @Test

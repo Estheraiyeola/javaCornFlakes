@@ -78,7 +78,7 @@ public class StudentGrade {
             }
             total = 0;
         }
-        System.out.println(Arrays.deepToString(workSheet));
+
     }
 
     public void calculatingAverageForEachStudent(){
@@ -91,7 +91,7 @@ public class StudentGrade {
             }
             average = 0;
         }
-        System.out.println(Arrays.toString(averageStorage));
+
     }
     public void  calculatingAverageForEachSubject(){
         averageStorageForSubject = new double[numberOfSubjects];

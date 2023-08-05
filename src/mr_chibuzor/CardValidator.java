@@ -44,13 +44,13 @@ public class CardValidator {
             cardType = "MasterCard";
         }
         else if (cardNumber.startsWith("37")){
-            cardType = "American Express Cards";
+            cardType = "American Express Card";
         }
         else if (cardNumber.startsWith("6")){
             cardType = "Discover Cards";
         }
         else {
-            System.out.println("Invalid cardType");
+            System.out.println("Invalid card type");
             exit(0);
         }
     }

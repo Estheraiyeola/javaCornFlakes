@@ -12,5 +12,7 @@ public class Main {
         cashier.vATCalculator();
         cashier.discountCalculator();
         cashier.billTotalCalculator();
+        cashier.displayFirstReceipt();
+        cashier.displaySecondReceipt();
     }
 }

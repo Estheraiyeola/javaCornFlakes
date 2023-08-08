@@ -1,8 +1,7 @@
 package semicolon_store;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Cashier extends Product{
     private List<String> productNameList = new ArrayList<String>();
@@ -10,6 +9,8 @@ public class Cashier extends Product{
     private List<Integer> productQuantity = new ArrayList<Integer>();
     private List<Double> priceOfProductList = new ArrayList<Double>();
 
+    private double amountCollectedFromUser;
+    private double balance;
     private String usersName;
     private String cashiersName;
     private int discount;
@@ -30,9 +31,11 @@ public class Cashier extends Product{
 
     }
     public void collectCashiersName(){
+        String cashiersName = "";
         System.out.println("What is your name?");
-        input.next();
+        this.cashiersName = cashiersName;
         cashiersName = input.nextLine();
+        input.next();
     }
     public void amountOfDiscount(){
         System.out.println("How much discount will the user get?");
@@ -66,7 +69,6 @@ public class Cashier extends Product{
         for (int index = 0; index < productPriceList.size(); index++) {
             priceOfProductList.add((double) productQuantity.get(index) * productPriceList.get(index));
         }
-        System.out.println(priceOfProductList);
     }
     public double calculateSubTotal(){
         double total = 0;
@@ -88,16 +90,69 @@ public class Cashier extends Product{
         double vAT = vATCalculator();
         return subTotal - discount + vAT;
     }
-    public double collectPaymentFromTheCustomer(){
-        System.out.println("How much did the customer give to you? ");
-        return input.nextInt();
-    }
-    public double balanceCalculator(){
-        double totalBill = billTotalCalculator();
-        double customerPayment = collectPaymentFromTheCustomer();
-        return  customerPayment - totalBill;
-    }
     public void displayFirstReceipt(){
+        constructReceipt();
+        System.out.println("=".repeat(50));
+        System.out.printf("\t\t\tTHIS IS NOT A RECEIPT KINDLY PAY %.2f\n", billTotalCalculator());
+        System.out.println("=".repeat(50));
+        collectAmountFromUser();
+    }
 
+    private void constructReceipt() {
+        System.out.println("SEMICOLON STORES");
+        System.out.println("MAIN BRANCH");
+        System.out.println("LOCATION: 312, HERBERT MACAULAY WAY, SABO, YABA, LAGOS.");
+        System.out.println("TEL: 03293828343");
+        System.out.print("Date: ");
+        System.out.print( new SimpleDateFormat("yyyy/MM/dd HH:mm:ss\n").format(Calendar.getInstance().getTime()) );
+        System.out.printf("Cashier: %s\n", cashiersName);
+        System.out.printf("Customer Name: %s\n", usersName);
+        System.out.println("=".repeat(50));
+        System.out.print("\t\tITEM");
+        System.out.print("\tQTY");
+        System.out.print("\tPRICE");
+        System.out.print("\t\tTOTAL(NGN)\n");
+        System.out.println("-".repeat(50));
+        for (int index = 0; index < productNameList.size(); index++) {
+            System.out.printf("\t\t%s",productNameList.get(index));
+            System.out.printf("\t%d",productQuantity.get(index));
+            System.out.printf("\t%.2f\t",productPriceList.get(index));
+            System.out.printf("\t%.2f",priceOfProductList.get(index));
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println("-".repeat(50));
+        System.out.printf("%25s\t%.2f\n","Sub Total:", calculateSubTotal());
+        System.out.printf("%25s\t%.2f\n","Discount:", discountCalculator());
+        System.out.printf("%25s\t%.2f\n","VAT @ 17.50:", vATCalculator());
+        System.out.println("=".repeat(50));
+        System.out.printf("%25s\t%.2f\n","Bill Total", billTotalCalculator());
+
+    }
+
+    public void displaySecondReceipt(){
+        constructReceipt();
+        System.out.printf("%25s\t%.2f\n","Amount Paid:", amountCollectedFromUser);
+        System.out.printf("%25s\t%.2f\n","Balance:", balance);
+        System.out.println("=".repeat(50));
+        System.out.println("\t\t\tTHANK YOU FOR YOUR PATRONAGE");
+        System.out.println("=".repeat(50));
+    }
+
+    private double collectAmountFromUser() {
+        System.out.println("How much did the customer give to you?");
+        double amountCollectedFromUser = input.nextInt();
+        this.amountCollectedFromUser = amountCollectedFromUser;
+        return balanceCalculator(amountCollectedFromUser);
+    }
+
+    private double balanceCalculator(double amountCollectedFromUser) {
+        double balance = amountCollectedFromUser - billTotalCalculator();
+        this.balance = balance;
+        return balance;
+    }
+
+    private String getCashiersName() {
+        return cashiersName;
     }
 }

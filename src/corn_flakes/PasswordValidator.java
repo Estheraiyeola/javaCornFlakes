@@ -9,8 +9,7 @@ public class PasswordValidator {
     public void collectPassword(){
         Scanner input = new Scanner(System.in);
         System.out.println("Enter a password: ");
-        String password = input.nextLine();
-        this.password = password;
+        this.password = input.nextLine();
     }
     public void passwordValidatorMethod(){
         collectPassword();

@@ -13,16 +13,37 @@ public class BankTest {
     }
     @Test
     public void testThatBankCanRegisterCustomers(){
-        activity.register("Esther", "Aiyeola", "pin");
-        assertEquals(new Account("1", "Esther Aiyeola", "pin").getAccount(), activity.findAccount("1").getAccount());
-        activity.register("Temitope", "Aiyeola", "pin");
-        assertEquals(new Account("2", "Temitope Aiyeola", "pin").getAccount(), activity.findAccount("2").getAccount());
+        activity.register("Esther", "Aiyeola", "1234");
+        assertEquals(new Account("1", "Esther Aiyeola", "1234").getAccount(), activity.findAccount("1").getAccount());
+        activity.register("Temitope", "Aiyeola", "1234");
+        assertEquals(new Account("2", "Temitope Aiyeola", "1234").getAccount(), activity.findAccount("2").getAccount());
     }
     @Test
-    public void testThatBankCanPrintAllItsAccounts(){
-        activity.register("Esther", "Aiyeola", "pin");
-        activity.register("Bola", "Aiyeola", "pin");
-        String expected = null;
-        assertEquals(null, activity.printListOfAccounts());
+    public void testThatDepositMoneyWorks(){
+        activity.register("Esther", "Aiyeola", "1234");
+        assertEquals(new Account("1", "Esther Aiyeola", "1234").getAccount(), activity.findAccount("1").getAccount());
+        activity.deposit(1000, "1");
+        assertEquals(1000, activity.checkBalance("1", "1234"));
+    }
+    @Test
+    public void testThatWithdrawMoneyWorks(){
+        activity.register("Esther", "Aiyeola", "1234");
+        assertEquals(new Account("1", "Esther Aiyeola", "1234").getAccount(), activity.findAccount("1").getAccount());
+        activity.deposit(1000, "1");
+        assertEquals(1000, activity.checkBalance("1", "1234"));
+        activity.withdraw(500, "1", "1234");
+        assertEquals(500, activity.checkBalance("1", "1234"));
+    }
+    @Test
+    public void testThatBankCanTransferAccountsFromAnAccountToAnotherAccount(){
+        activity.register("Esther", "Aiyeola", "1234");
+        assertEquals(new Account("1", "Esther Aiyeola", "1234").getAccount(), activity.findAccount("1").getAccount());
+        activity.deposit(1000, "1");
+        assertEquals(1000, activity.checkBalance("1", "1234"));
+        activity.register("Temitope", "Aiyeola", "1234");
+        assertEquals(new Account("2", "Temitope Aiyeola", "1234").getAccount(), activity.findAccount("2").getAccount());
+        activity.transfer(500, "1", "2","1234");
+        assertEquals(500, activity.checkBalance("1", "1234"));
+        assertEquals(500, activity.checkBalance("2", "1234"));
     }
 }

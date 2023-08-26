@@ -15,4 +15,29 @@ public class DiariesTest {
     public void testThatListOfDiariesIsEmpty(){
         assertTrue(activity.isEmpty());
     }
+    @Test
+    public void testThatADiaryCanBeAddedToAListOfDiaries(){
+        activity.add("Esther", "Password");
+        assertEquals(1, activity.getSize());
+        activity.add("Sola", "Password");
+        assertEquals(2, activity.getSize());
+    }
+    @Test
+    public void testThatADiaryCanBeFoundInAListOfDiariesByUsingTheUsername(){
+        activity.add("Esther", "Password");
+        assertEquals(1, activity.getSize());
+        activity.add("Sola", "Password");
+        assertEquals(2, activity.getSize());
+        assertEquals("Esther",activity.findByUsername("Esther").getUsername());
+    }
+    @Test
+    public void testThatADiaryCanBeDeletedFromAListOfDiariesByUsingTheUsername(){
+        activity.add("Esther", "Password");
+        assertEquals(1, activity.getSize());
+        activity.add("Sola", "Password");
+        assertEquals(2, activity.getSize());
+        activity.delete("Esther", "Password");
+        assertThrows(IllegalArgumentException.class, ()-> activity.findByUsername("Esther"));
+        assertEquals(1,activity.getSize());
+    }
 }

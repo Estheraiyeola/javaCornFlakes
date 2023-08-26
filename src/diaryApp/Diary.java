@@ -55,4 +55,14 @@ public class Diary {
     public void updateEntry(int id, String newTitle, String newBody) {
         findEntry(id).updateEntry(newTitle, newBody);
     }
+
+    public String getUsername() {
+        return userName;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public String getDiary(){
+        return userName + " " + password;
+    }
 }

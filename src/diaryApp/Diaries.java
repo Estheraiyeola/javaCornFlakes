@@ -27,6 +27,7 @@ public class Diaries {
         for (Diary diary : diaries) {
             if (diary.getUsername().equals(username)) return diary;
         }
+
         throw new IllegalArgumentException("Diary does not exist");
     }
 

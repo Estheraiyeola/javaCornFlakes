@@ -4,6 +4,12 @@ import java.util.Scanner;
 
 public class Main {
     private static Scanner input = new Scanner(System.in);
+    private static Diaries diaries = new Diaries();
+    private static String username;
+    private static String password;
+    private static Diary diary = new Diary(username, password);
+
+
     public static void main(String[] args) {
         Main main = new Main();
         mainMenu();
@@ -19,16 +25,13 @@ public class Main {
                 """);
         String userInput = input.next();
         if (userInput.equals("1"))logInValidator();
-        if (userInput.equals("2"))signUpMenu();
+        else if (userInput.equals("2"))signUpMenu();
+        else mainMenu();
     }
     public static void logInValidator(){
         System.out.println("Username: ");
         String username = input.next();
-        Diaries diaries = new Diaries();
-        if (diaries.findByUsername(username).equals(username)) logInMenu();
-        else {
-            signUpMenu();
-        }
+        if (diaries.findByUsername(username).getUsername().equals(username)) logInMenu();
     }
     public static void logInMenu(){
         System.out.print("""
@@ -42,9 +45,76 @@ public class Main {
                 4. FIND ENTRY
                 5. LOCK DIARY
                 6. UNLOCK DIARY
-                7. UPDATE ENTRY
                 """);
+        String userInput = input.next();
+        if (userInput.equals("1")) addEntry();
+        else if (userInput.equals("2")) updateEntry();
+        else if (userInput.equals("3")) deleteEntry();
+        else if (userInput.equals("4")) findEntry();
+        else if (userInput.equals("5")) lockEntry();
+        else if (userInput.equals("6")) unlockEntry();
+        else {
+            System.out.println("Invalid Input");
+            logInMenu();
+        }
     }
+
+    private static void unlockEntry() {
+    }
+
+    private static void lockEntry() {
+    }
+
+    private static void findEntry() {
+        System.out.println("Enter entry id: ");
+        int id = input.nextInt();
+        System.out.println(diary.findEntry(id).getTitle());
+        System.out.println(diary.findEntry(id).getEntry());
+
+        logInMenu();
+    }
+
+    private static void deleteEntry() {
+    }
+
+    private static void updateEntry() {
+        System.out.println("Enter your id number: ");
+        int id = input.nextInt();
+        System.out.println("Add to title: ");
+        input.next();
+        String newTitle = input.nextLine();
+        System.out.println("Add to body: ");
+        String newBody = input.nextLine();
+        diary.updateEntry(id, newTitle, newBody);
+        saveEntry();
+    }
+
+    private static void addEntry() {
+        System.out.print("""
+                ========================================================
+                                    ADD ENTRY.....
+                ========================================================
+                """);
+        System.out.println("What's the title of your entry? ");
+        String title = input.nextLine();
+        input.next();
+        System.out.println("What do you want to share today? ");
+        String body = input.nextLine();
+        input.next();
+        diary.createEntry(title, body);
+        System.out.printf("ID for this entry is %d\n", diary.getSize());
+        saveEntry();
+
+    }
+
+    public static void saveEntry(){
+        System.out.print("Saving");
+        System.out.println(">".repeat(10));
+        System.out.println("Saved");
+        System.out.println();
+        logInMenu();
+    }
+
     public static void signUpMenu(){
         System.out.print("""
                 ============================================================================
@@ -53,8 +123,22 @@ public class Main {
                 SELECT AN OPTION
                 1. CREATE DIARY
                 """);
+        String userInput = input.next();
+        if (userInput.equals("1")) createDiary();
+        else {
+            System.out.println("Invalid Input");
+            signUpMenu();
+        }
     }
-    public static void addEntry(){
-
+    public static void createDiary(){
+        System.out.println("Enter a username: ");
+        username = input.next();
+        System.out.println("Enter a password: ");
+        password = input.next();
+        diaries.add(username, password);
+        System.out.print("""
+                DIARY CREATED SUCCESSFULLY!!!
+                """);
+        mainMenu();
     }
 }

@@ -3,7 +3,7 @@ package diaryApp;
 import java.time.LocalDateTime;
 
 public class Entry {
-    private  int id;
+    private final int id;
     private String title;
     private String body;
     private LocalDateTime dateCreated;
@@ -11,8 +11,10 @@ public class Entry {
         this.title = title;
         this.body = body;
         this.id = id;
+        System.out.println(getDateCreated());
     }
     public LocalDateTime getDateCreated(){
+        dateCreated = LocalDateTime.now().toLocalDate().atStartOfDay();
         return dateCreated;
     }
     public String getEntry() {
@@ -27,7 +29,7 @@ public class Entry {
     }
     public void updateEntry(String title, String body){
         this.title += title;
-        this.body += body;
+        this.body +=  body;
     }
 
 

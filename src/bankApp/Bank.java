@@ -50,4 +50,7 @@ public class Bank {
         findAccount(sendersAccountNumber).withdraw(amount, sendersPin);
         findAccount(receiversAccountNumber).deposit(amount);
     }
+    public int getSize(){
+        return accounts.size();
+    }
 }

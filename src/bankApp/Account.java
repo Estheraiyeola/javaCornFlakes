@@ -1,7 +1,5 @@
 package bankApp;
 
-import java.util.regex.Pattern;
-
 public class Account {
     private final String name;
     private int balance;
@@ -10,8 +8,13 @@ public class Account {
 
     public Account(String accountNumber, String firstNameLastName, String pin) {
         this.pin = pin;
+        validate(pin);
         this.accountNumber = accountNumber;
         this.name = firstNameLastName;
+    }
+
+    public Account(String name) {
+        this.name = name;
     }
 
     public void deposit(int amount) {
@@ -31,9 +34,16 @@ public class Account {
     }
 
     private void validate(String pin) {
-        if (!pinIsANumber(pin)) throw new IllegalArgumentException("pin is a number");
+        if (pinIsLongerThan4(pin)) throw new IllegalArgumentException("pin is more than 4 digits");
+        if (!pinIsANumber(pin)) throw new IllegalArgumentException("pin must be a number");
         if (!isCorrectPin(pin)) throw new IllegalArgumentException("pin is not correct");
     }
+
+    private boolean pinIsLongerThan4(String pin) {
+        if (pin.length() > 4) return true;
+        else return false;
+    }
+
     private void validate(int amount){
         if (amountIsNegative(amount)) throw new IllegalArgumentException("Amount cannot be negative");
     }
@@ -56,10 +66,6 @@ public class Account {
     public  String getAccountNumber(){
         return accountNumber;
     }
-    public String getName(){
-        return accountNumber;
-    }
-
     public void updatePin(String pin) {
         this.pin = pin;
     }

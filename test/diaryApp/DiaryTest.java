@@ -44,8 +44,8 @@ public class DiaryTest {
     public void testThatUserCanUpdateEntry(){
         activity.createEntry("First Day", "I am coding");
         assertEquals(new Entry(1, "First Day", "I am coding").getId(), activity.findEntry(1).getId());
-        activity.updateEntry(1, "", " with music in my hears");
-        assertEquals(new Entry(1, "First Day", "I am coding with music in my hears").getEntry(), activity.findEntry(1).getEntry());
+        activity.updateEntry(1, " Girl", " with music in my hears");
+        assertEquals(new Entry(1, "First Day Girl", "I am coding with music in my hears").getEntry(), activity.findEntry(1).getEntry());
         assertEquals(1, activity.getSize());
         System.out.println(activity.findEntry(1).getEntry());
     }

@@ -1,10 +1,10 @@
 package mr_chibuzor;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.BeforeEach;
-
-
+import org.junit.jupiter.api.Test;
 public class MbtiTest {
     private MBTI activity;
     @BeforeEach
@@ -14,7 +14,7 @@ public class MbtiTest {
     @Test
     public void testThatMethodNameWorks(){
         activity.nameMethod();
-        Assertions.assertEquals("Esther", activity.getNameMethod());
+        assertEquals("Esther", activity.getNameMethod());
     }
     @Test
     public void testDisplayMethod(){
@@ -34,7 +34,7 @@ public class MbtiTest {
                 Idealistic and empathetic, Mediators long for deep, soulful relationships, and they feel called to help others. 
                 But because this personality type makes up such a small portion of the population, Mediators may sometimes feel lonely or invisible, adrift in a world that doesn’t seem to appreciate the traits that make them unique.
                 """;
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
 }

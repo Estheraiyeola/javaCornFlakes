@@ -51,4 +51,8 @@ public class AccountTest {
         activity.updatePin("5678");
         assertThrows(IllegalArgumentException.class, ()-> {activity.withdraw(1_000, "1234");});
     }
+    @Test
+    public void testThatAmountCannotBeAnAlphabet(){
+        assertThrows(IllegalArgumentException.class, ()-> {activity.deposit(Integer.parseInt("abcd"));});
+    }
 }

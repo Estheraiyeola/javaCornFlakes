@@ -1,10 +1,9 @@
 package corn_flakes;
 
-import corn_flakes.MinuteSecond;
-import org.junit.Test;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MinutesSecondTest {
     @Test

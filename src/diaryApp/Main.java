@@ -1,5 +1,6 @@
 package diaryApp;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -29,9 +30,15 @@ public class Main {
         else mainMenu();
     }
     public static void logInValidator(){
-        System.out.println("Username: ");
-        String username = input.next();
-        if (diaries.findByUsername(username).getUsername().equals(username)) logInMenu();
+        try {
+            System.out.println("Username: ");
+            String username = input.next();
+            if (diaries.findByUsername(username).getUsername().equals(username)) logInMenu();
+        }catch (IllegalArgumentException e){
+            System.out.println("Diary does not exist");
+            mainMenu();
+        }
+
     }
     public static void logInMenu(){
         System.out.print("""
@@ -66,12 +73,15 @@ public class Main {
     }
 
     private static void findEntry() {
-        System.out.println("Enter entry id: ");
-        int id = input.nextInt();
-        System.out.println(diary.findEntry(id).getTitle());
-        System.out.println(diary.findEntry(id).getEntry());
-
-        logInMenu();
+        try {
+            System.out.println("Enter entry id: ");
+            int id = input.nextInt();
+            System.out.println(diary.findEntry(id));
+            logInMenu();
+        }catch (IllegalArgumentException e){
+            System.out.println("Invalid Input");
+            logInMenu();
+        }
     }
 
     private static void deleteEntry() {
@@ -85,8 +95,14 @@ public class Main {
         String newTitle = input.nextLine();
         System.out.println("Add to body: ");
         String newBody = input.nextLine();
-        diary.updateEntry(id, newTitle, newBody);
-        saveEntry();
+        try {
+            diary.findEntry(id).updateEntry(newTitle,newBody);
+            saveEntry();
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("Entry not found");
+            logInMenu();
+        }
     }
 
     private static void addEntry() {
@@ -101,9 +117,15 @@ public class Main {
         System.out.println("What do you want to share today? ");
         String body = input.nextLine();
         input.next();
-        diary.createEntry(title, body);
-        System.out.printf("ID for this entry is %d\n", diary.getSize());
-        saveEntry();
+        try {
+            diary.createEntry(title, body);
+            System.out.printf("ID for this entry is %d\n", diary.getSize());
+            saveEntry();
+        }catch (InputMismatchException | IllegalArgumentException e){
+            System.out.println("Invalid Input");
+            logInMenu();
+        }
+
 
     }
 
@@ -135,10 +157,16 @@ public class Main {
         username = input.next();
         System.out.println("Enter a password: ");
         password = input.next();
-        diaries.add(username, password);
-        System.out.print("""
+        try {
+            diaries.add(username, password);
+            System.out.print("""
                 DIARY CREATED SUCCESSFULLY!!!
                 """);
-        mainMenu();
+            mainMenu();
+        }catch (InputMismatchException e){
+            System.out.println("Invalid Input");
+            mainMenu();
+        }
+
     }
 }

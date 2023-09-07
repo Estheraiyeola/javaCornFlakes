@@ -8,14 +8,10 @@ public class Entry {
     private String body;
     private LocalDateTime dateCreated;
     public Entry(int id, String title, String body) {
+        this.id = id;
         this.title = title;
         this.body = body;
-        this.id = id;
-        System.out.println(getDateCreated());
-    }
-    public LocalDateTime getDateCreated(){
-        dateCreated = LocalDateTime.now().toLocalDate().atStartOfDay();
-        return dateCreated;
+        dateCreated = LocalDateTime.now();
     }
     public String getEntry() {
         return title + " " + body;
@@ -31,6 +27,15 @@ public class Entry {
         this.title += title;
         this.body +=  body;
     }
-
+    public void setTitle(String title){
+        this.title += title;
+    }
+    public void setBody(String body){
+        this.body += body;
+    }
+//    @Override
+//    public String toString(){
+//        return id + " " + title + " " + body;
+//    }
 
 }

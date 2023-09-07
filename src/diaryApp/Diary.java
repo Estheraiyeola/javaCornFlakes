@@ -29,7 +29,7 @@ public class Diary {
 
     public void createEntry(String title, String body) {
         Entry entry = new Entry(generateId(), title, body);
-        entries.add(entry);
+        this.entries.add(entry);
     }
 
     private int generateId() {
@@ -37,7 +37,7 @@ public class Diary {
     }
 
     public Entry findEntry(int id) {
-        for (Entry entry : entries) {
+        for (Entry entry : this.entries) {
             if (entry.getId() == id) return entry;
         }
         throw new IllegalArgumentException("Wrong Id");
@@ -45,11 +45,11 @@ public class Diary {
 
     public void deleteEntry(int id) {
         int identity = findEntry(id).getId();
-        entries.remove(identity - 1);
+        this.entries.remove(identity - 1);
     }
 
     public int getSize() {
-        return entries.size();
+        return this.entries.size();
     }
 
     public void updateEntry(int id, String newTitle, String newBody) {

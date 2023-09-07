@@ -1,6 +1,5 @@
 package mr_chibuzor;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class StudentGrade {
@@ -27,10 +26,10 @@ public class StudentGrade {
         return numberOfSubjects;
     }
     public void collectInput(){
-        System.out.println("How many students do you have?");
+        System.out.println("How many students do you have? ");
         numberOfStudents = input.nextInt();
         setNumberOfStudents(numberOfStudents);
-        System.out.println("How many subjects do they offer?");
+        System.out.println("How many subjects do they offer? ");
         numberOfSubjects = input.nextInt();
         setNumberOfSubjects(numberOfSubjects);
         System.out.println("Saving  >>>>>>>>>>>>>>>>>>>");
@@ -39,7 +38,7 @@ public class StudentGrade {
 
     public void collectingScoresForEachStudentAndSubject(){
         workSheet = new int[numberOfStudents][numberOfSubjects + 2];
-        for (int index = 1; index <= numberOfStudents; index++) {
+        for (int index = 1; index <= numberOfStudents;index++) {
             for (int idx = 1; idx <= numberOfSubjects; idx++) {
                 System.out.printf("Entering score for student %d\n", index);
                 System.out.printf("Enter score for subject %d\n", idx);
@@ -98,16 +97,28 @@ public class StudentGrade {
         for (int index = 0; index < totalForEachSubjectStorage.length; index++) {
             averageStorageForSubject[index] = (double) totalForEachSubjectStorage[index] / numberOfStudents;
         }
-        System.out.println(Arrays.toString(averageStorageForSubject));
     }
 
     public void determinePositionOfStudents(){
         double[] copy = new double[numberOfStudents];
+        double temp = 0;
         System.arraycopy(averageStorage, 0, copy, 0, averageStorage.length);
-
-
-        System.out.println(Arrays.toString(copy));
-        System.out.println(Arrays.deepToString(workSheet));
+        for (int index = 0; index < averageStorage.length; index++) {
+            for (int idx = index + 1; idx < copy.length; idx++) {
+                if (copy[index] < copy[idx]){
+                    temp = copy[index];
+                    copy[index] = copy[idx];
+                    copy[idx] = temp;
+                }
+            }
+        }
+        for (int index = 0; index < averageStorage.length; index++) {
+            for (int idx = 0; idx < copy.length; idx++) {
+                if (averageStorage[idx] == copy[index]){
+                    workSheet[idx][numberOfSubjects + 1] = index + 1;
+                }
+            }
+        }
     }
 
     public void displayTable(){
@@ -168,8 +179,8 @@ public class StudentGrade {
             lowestScoringStudentStorage[index] = lowest;
             System.out.println("SUBJECT SUMMARY");
             System.out.printf("Subject %d\n", index + 1);
-            System.out.printf("Highest scoring student is: Student %d scoring %d\n", indexOfHighest, highestScoringStudentStorage[index]);
-            System.out.printf("Lowest scoring student is: Student %d scoring %d\n", indexOfLowest, lowestScoringStudentStorage[index]);
+            System.out.printf("Highest scoring student is: Student %d scoring %d\n", indexOfHighest + 1, highestScoringStudentStorage[index]);
+            System.out.printf("Lowest scoring student is: Student %d scoring %d\n", indexOfLowest + 1, lowestScoringStudentStorage[index]);
             System.out.printf("Total score is: %d\n", totalForEachSubjectStorage[index]);
             System.out.printf("Average score is: %.2f\n", averageStorageForSubject[index]);
             int passCounter = 0;
@@ -244,17 +255,17 @@ public class StudentGrade {
         int indexOfBestGraduatingScore = 0;
         int worstGraduatingScore = workSheet[0][numberOfSubjects];
         int indexOfWorstGraduatingScore = 0;
-        for (int index = 0; index <= numberOfStudents; index++) {
+        for (int index = 0; index < numberOfStudents; index++) {
             for (int idx = 0; idx < numberOfSubjects; idx++) {
                 if (workSheet[idx][index] >= bestGraduatingScore){
                     bestGraduatingScore = workSheet[idx][index];
-                    indexOfBestGraduatingScore = idx + 1;
+                    indexOfBestGraduatingScore = index + 1;
                 }
             }
-            for (int idx = 0; idx < workSheet[index][numberOfSubjects]; idx++) {
-                if (workSheet[idx][index] <= worstGraduatingScore){
-                    worstGraduatingScore = workSheet[idx][index];
-                    indexOfWorstGraduatingScore = idx + 1;
+            for (int idx = 0; idx < numberOfSubjects; idx++) {
+                if (workSheet[index][numberOfSubjects] < worstGraduatingScore){
+                    worstGraduatingScore = workSheet[index][numberOfSubjects];
+                    indexOfWorstGraduatingScore = index + 1;
                 }
             }
         }

@@ -1,5 +1,7 @@
 package bankApp;
 
+import java.util.InputMismatchException;
+
 public class Account {
     private final String name;
     private int balance;
@@ -30,10 +32,12 @@ public class Account {
     public void withdraw(int amount, String pin) {
         validate(pin);
         validate(amount);
-        balance -= amount;
+        boolean balanceIsLesserThanAmount = balance < amount;
+        if (!balanceIsLesserThanAmount) balance -= amount;
+        else throw new IllegalArgumentException("Insufficient Funds");
     }
 
-    private void validate(String pin) {
+    public void validate(String pin) {
         if (pinIsLongerThan4(pin)) throw new IllegalArgumentException("pin is more than 4 digits");
         if (!pinIsANumber(pin)) throw new IllegalArgumentException("pin must be a number");
         if (!isCorrectPin(pin)) throw new IllegalArgumentException("pin is not correct");
@@ -44,7 +48,7 @@ public class Account {
         else return false;
     }
 
-    private void validate(int amount){
+    public void validate(int amount){
         if (amountIsNegative(amount)) throw new IllegalArgumentException("Amount cannot be negative");
     }
 
@@ -68,5 +72,9 @@ public class Account {
     }
     public void updatePin(String pin) {
         this.pin = pin;
+    }
+    @Override
+    public String toString() {
+        return accountNumber + " " + name+ " " + pin;
     }
 }

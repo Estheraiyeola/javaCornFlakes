@@ -47,4 +47,5 @@ public enum GeopoliticalZone {
         this.state = state;
         return  state;
     }
+
 }

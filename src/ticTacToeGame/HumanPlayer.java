@@ -4,6 +4,13 @@ public class HumanPlayer extends Player {
     private char symbol;
     private int id;
     private static Board board = new Board();
+    HumanPlayer(char symbol, int id){
+        this.symbol = symbol;
+        this.id = id;
+    }
+    HumanPlayer(){
+
+    }
 
     @Override
     public char getSymbol() {
@@ -18,7 +25,8 @@ public class HumanPlayer extends Player {
     @Override
     public void setSymbol(char symbol) {
         if (symbol == 'X') this.symbol = Symbol.CROSS.returnSymbol();
-        if (symbol == 'O') this.symbol = Symbol.CIRCLE.returnSymbol();
+        else if (symbol == 'O') this.symbol = Symbol.CIRCLE.returnSymbol();
+        else throw new IllegalArgumentException("Symbol not available\n Symbol can either be an 'X' or an 'O' ");
     }
 
     @Override

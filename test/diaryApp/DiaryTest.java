@@ -20,7 +20,7 @@ public class DiaryTest {
     public void testThatUserCanUnlockDiary(){
         activity.lockDiary();
         assertTrue(activity.isLocked());
-        activity.unlockDiary();
+        activity.unlockDiary("Password");
         assertFalse(activity.isLocked());
     }
     @Test

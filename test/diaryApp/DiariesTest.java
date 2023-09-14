@@ -41,4 +41,13 @@ public class DiariesTest {
         assertThrows(IllegalArgumentException.class, ()-> activity.findByUsername("Esther"));
         assertEquals(1,activity.getSize());
     }
+    @Test
+    public void testThatListOfDiariesHasUniqueUsernames(){
+        activity.add("Esther", "Password");
+        assertEquals(1, activity.getSize());
+        activity.add("Sola", "Password");
+        assertEquals(2, activity.getSize());
+        assertThrows(IllegalArgumentException.class, ()->activity.add("Esther", "Password"));
+
+    }
 }

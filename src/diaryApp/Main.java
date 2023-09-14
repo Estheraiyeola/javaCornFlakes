@@ -1,47 +1,60 @@
 package diaryApp;
 
+import javax.swing.*;
 import java.util.InputMismatchException;
-import java.util.Scanner;
+
+import static java.lang.System.exit;
 
 public class Main {
-    private static Scanner input = new Scanner(System.in);
     private static Diaries diaries = new Diaries();
-    private static String username;
-    private static String password;
-    private static Diary diary = new Diary(username, password);
+    private  String username;
 
 
     public static void main(String[] args) {
         Main main = new Main();
-        mainMenu();
+        main.mainMenu();
     }
-    public static void mainMenu(){
-        System.out.print("""
+    public  void mainMenu(){
+        String message =("""
                 ===========================================================================
                                         WELCOME TO THE DIARY PLACE
                 ===========================================================================
                 SELECT AN OPTION:
                 1. LOGIN
                 2. SIGN UP
+                3. EXIT
                 """);
-        String userInput = input.next();
-        if (userInput.equals("1"))logInValidator();
-        else if (userInput.equals("2"))signUpMenu();
-        else mainMenu();
+        String userInput = input(message);
+        switch (userInput) {
+            case "1" -> logInValidator();
+            case "2" -> signUpMenu();
+            case "3" -> exitApp();
+            default -> {
+                display("Invalid Input");
+                mainMenu();
+            }
+        }
     }
-    public static void logInValidator(){
+
+    private  void exitApp() {
+        exit(0);
+    }
+
+    public void logInValidator(){
         try {
-            System.out.println("Username: ");
-            String username = input.next();
-            if (diaries.findByUsername(username).getUsername().equals(username)) logInMenu();
+            String username =input("Username: ");
+            String password =input("Password: ");
+            diaries.validate(username, password);
+            this.username = username;
+            logInMenu();
         }catch (IllegalArgumentException e){
-            System.out.println("Diary does not exist");
+            display("Diary does not exist");
             mainMenu();
         }
 
     }
-    public static void logInMenu(){
-        System.out.print("""
+    public void logInMenu(){
+        String message = ("""
                 ============================================================================
                                                 MENU
                 ============================================================================
@@ -51,122 +64,151 @@ public class Main {
                 3. DELETE ENTRY
                 4. FIND ENTRY
                 5. LOCK DIARY
-                6. UNLOCK DIARY
+                6. LOG OUT
                 """);
-        String userInput = input.next();
-        if (userInput.equals("1")) addEntry();
-        else if (userInput.equals("2")) updateEntry();
-        else if (userInput.equals("3")) deleteEntry();
-        else if (userInput.equals("4")) findEntry();
-        else if (userInput.equals("5")) lockEntry();
-        else if (userInput.equals("6")) unlockEntry();
-        else {
-            System.out.println("Invalid Input");
-            logInMenu();
+        String userInput = input(message);
+        switch (userInput) {
+            case "1" -> addEntry();
+            case "2" -> updateEntry();
+            case "3" -> deleteEntry();
+            case "4" -> findEntry();
+            case "5" -> lockDiary();
+            case "6" -> {
+                display("Logging out.......");
+                mainMenu();
+            }
+            default -> {
+                System.out.println("Invalid Input");
+                logInMenu();
+            }
         }
     }
 
-    private static void unlockEntry() {
-    }
-
-    private static void lockEntry() {
-    }
-
-    private static void findEntry() {
+    private void unlockDiary() {
         try {
-            System.out.println("Enter entry id: ");
-            int id = input.nextInt();
-            System.out.println(diary.findEntry(id));
+            String password = input("Enter your password: ");
+            diaries.findByUsername(username).unlockDiary(password);
+            display("Diary Unlocked!!!");
             logInMenu();
         }catch (IllegalArgumentException e){
-            System.out.println("Invalid Input");
+            display(e.getMessage());
+            unlockDiary();
+        }
+
+    }
+
+    private  void lockDiary() {
+        diaries.findByUsername(username).lockDiary();
+        display("Diary is locked");
+        String message = input("""
+        SELECT:
+        1. UNLOCK DIARY
+        2. LOG OUT
+        3. EXIT
+        """);
+        switch (message){
+            case "1" -> unlockDiary();
+            case "2" -> {
+                display("Logging out.......");
+                mainMenu();
+            }
+            case "3" -> exitApp();
+            default -> lockDiary();
+        }
+    }
+
+    private  void findEntry() {
+        try {
+            int id = Integer.parseInt(input("Enter entry id: "));
+            display(diaries.findByUsername(username).findEntry(id).getEntry());
+            logInMenu();
+        }catch (IllegalArgumentException e){
+            display(e.getMessage());
             logInMenu();
         }
     }
 
-    private static void deleteEntry() {
+    private void deleteEntry() {
+        try {
+            int id = Integer.parseInt(input("Enter your id: "));
+            diaries.findByUsername(username).deleteEntry(id);
+            display("Entry deleted");
+            saveEntry();
+        }catch (InputMismatchException | IllegalArgumentException e){
+            display(e.getMessage());
+            logInMenu();
+        }
     }
 
-    private static void updateEntry() {
-        System.out.println("Enter your id number: ");
-        int id = input.nextInt();
-        System.out.println("Add to title: ");
-        input.next();
-        String newTitle = input.nextLine();
-        System.out.println("Add to body: ");
-        String newBody = input.nextLine();
+    private  void updateEntry() {
+        int id = Integer.parseInt(input("Enter your id number: "));
+        String newTitle = input("Add to title: ");
+        String newBody = input("Add to body: ");
         try {
-            diary.findEntry(id).updateEntry(newTitle,newBody);
+            diaries.findByUsername(username).updateEntry(id, newTitle, newBody);
             saveEntry();
         }
         catch (IllegalArgumentException e){
-            System.out.println("Entry not found");
+            display("Entry not found");
             logInMenu();
         }
     }
 
-    private static void addEntry() {
-        System.out.print("""
-                ========================================================
-                                    ADD ENTRY.....
-                ========================================================
-                """);
-        System.out.println("What's the title of your entry? ");
-        String title = input.nextLine();
-        input.next();
-        System.out.println("What do you want to share today? ");
-        String body = input.nextLine();
-        input.next();
+    private  void addEntry() {
         try {
-            diary.createEntry(title, body);
-            System.out.printf("ID for this entry is %d\n", diary.getSize());
+            display("ADD ENTRY.....");
+            String title = input("What's the title of your entry? ");
+            String body = input("What do you want to share today? ");
+            diaries.findByUsername(username).createEntry(title, body);
             saveEntry();
         }catch (InputMismatchException | IllegalArgumentException e){
-            System.out.println("Invalid Input");
+            display("Invalid Input");
             logInMenu();
         }
 
 
     }
 
-    public static void saveEntry(){
-        System.out.print("Saving");
-        System.out.println(">".repeat(10));
-        System.out.println("Saved");
-        System.out.println();
+    public  void saveEntry(){
+        display("Saving" + ">".repeat(10));
+        display("Saved");
         logInMenu();
     }
 
-    public static void signUpMenu(){
-        System.out.print("""
+    public  void signUpMenu(){
+        String message = ("""
                 ============================================================================
                                                 SIGN UP
                 ============================================================================
                 SELECT AN OPTION
                 1. CREATE DIARY
                 """);
-        String userInput = input.next();
+        String userInput = input(message);
         if (userInput.equals("1")) createDiary();
         else {
-            System.out.println("Invalid Input");
+            display("Invalid Input");
             signUpMenu();
         }
     }
-    public static void createDiary(){
-        System.out.println("Enter a username: ");
-        username = input.next();
-        System.out.println("Enter a password: ");
-        password = input.next();
+    public  void createDiary(){
         try {
+            String username = input("Enter a username: ");
+            String password = input("Enter a password: ");
             diaries.add(username, password);
-            System.out.print("""
+            display("""
                 DIARY CREATED SUCCESSFULLY!!!
                 """);
             mainMenu();
         }catch (InputMismatchException e){
-            System.out.println("Invalid Input");
+            display("Invalid Input");
             mainMenu();
         }
 
+    }
+    private static String input(String message){
+        return JOptionPane.showInputDialog(null, message);
+    }
+    private static void display(String message){
+        JOptionPane.showMessageDialog(null, message);
     }
 }

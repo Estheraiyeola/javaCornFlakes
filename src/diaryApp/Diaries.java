@@ -15,8 +15,23 @@ public class Diaries {
     }
 
     public void add(String userName, String password) {
+        userNameAlreadyExists(userName);
         Diary diary = new Diary(userName, password);
         diaries.add(diary);
+    }
+
+    private void userNameAlreadyExists(String userName) {
+        if (!diaries.isEmpty()){
+            for (Diary diary: diaries){
+                comparesUsername(userName, diary);
+            }
+        }
+    }
+
+    private static void comparesUsername(String userName, Diary diary) {
+        if (diary.getUsername().equals(userName)){
+            throw new IllegalArgumentException("Username Already Exists");
+        }
     }
 
     public int getSize() {
@@ -34,18 +49,13 @@ public class Diaries {
     public void delete(String username, String password) {
         String userName = findByUsername(username).getUsername();
         if (userName.equals(username)) {
-            validate(password);
+            validate(username,password);
             diaries.remove(findByUsername(username));
         }
     }
-    private void validate(String password) {
-        if (!isCorrectPassword(password)) throw new IllegalArgumentException("Incorrect pin");
+    public void validate(String username, String password) {
+        if (!findByUsername(username).getPassword().equals(password)) throw new IllegalArgumentException("Incorrect pin");
     }
 
-    private boolean isCorrectPassword(String password) {
-        for (Diary diary:diaries) {
-            if (diary.getPassword().equals(password)) return true;
-        }
-        return false;
-    }
+
 }

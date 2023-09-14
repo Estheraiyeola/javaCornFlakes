@@ -1,41 +1,38 @@
 package diaryApp;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Entry {
-    private final int id;
+    private int id;
     private String title;
     private String body;
-    private LocalDateTime dateCreated;
+    private final LocalDateTime dateCreated = LocalDateTime.now();
     public Entry(int id, String title, String body) {
         this.id = id;
         this.title = title;
         this.body = body;
-        dateCreated = LocalDateTime.now();
     }
     public String getEntry() {
-        return title + " " + body;
+        return "Entry Id-> " + getId() + "\nTitle-> " + getTitle() + "\nBody-> " + getBody() + "\nDateCreated-> " + dateCreated.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
     }
 
     public int getId() {
         return id;
     }
-    public String getTitle(){
-        return title;
-    }
-    public void updateEntry(String title, String body){
-        this.title += title;
-        this.body +=  body;
-    }
+
     public void setTitle(String title){
         this.title += title;
     }
+    public String getTitle(){
+        return this.title;
+    }
+
     public void setBody(String body){
         this.body += body;
     }
-//    @Override
-//    public String toString(){
-//        return id + " " + title + " " + body;
-//    }
+    public String getBody(){
+        return this.body;
+    }
 
 }

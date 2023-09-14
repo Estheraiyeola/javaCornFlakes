@@ -22,14 +22,19 @@ public class Diary {
         return isLocked;
     }
 
-    public void unlockDiary() {
+    public void unlockDiary(String password) {
+        validate(password);
         isLocked = false;
+    }
+
+    private void validate(String password) {
+        if (!this.password.equals(password))throw new IllegalArgumentException("Incorrect Password");
     }
 
 
     public void createEntry(String title, String body) {
         Entry entry = new Entry(generateId(), title, body);
-        this.entries.add(entry);
+        entries.add(entry);
     }
 
     private int generateId() {
@@ -37,15 +42,15 @@ public class Diary {
     }
 
     public Entry findEntry(int id) {
-        for (Entry entry : this.entries) {
+        for (Entry entry : entries) {
             if (entry.getId() == id) return entry;
         }
-        throw new IllegalArgumentException("Wrong Id");
+        throw new IllegalArgumentException("Entry not found");
     }
 
     public void deleteEntry(int id) {
-        int identity = findEntry(id).getId();
-        this.entries.remove(identity - 1);
+        Entry entry = findEntry(id);
+        entries.remove(entry);
     }
 
     public int getSize() {
@@ -53,7 +58,8 @@ public class Diary {
     }
 
     public void updateEntry(int id, String newTitle, String newBody) {
-        findEntry(id).updateEntry(newTitle, newBody);
+        findEntry(id).setTitle(newTitle);
+        findEntry(id).setBody(newBody);
     }
 
     public String getUsername() {
@@ -62,7 +68,10 @@ public class Diary {
     public String getPassword() {
         return password;
     }
-    public String getDiary(){
-        return userName + " " + password;
+    public Entry findByTitle(String title){
+        for (Entry entry: entries){
+            if (entry.getTitle().equals(title)) return entry;
+        }
+        throw new IllegalArgumentException("Wrong Id");
     }
 }
